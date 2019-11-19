@@ -1,11 +1,12 @@
 const container = document.querySelector('.container');
-let gridsize = document.getElementById('gridsize').value;
 let resizeButton = document.getElementById('submitbutton')
 let resetButton = document.getElementById('resetbutton')
+let gridsize = 16
 
+//-----------------------------------------------------------------------------
 
-
-function makeGrid(gridAmount) {
+// Creating the grid
+function makeGrid(gridAmount) {                                                   //Funtion to create grid
 
   for (var i = 0; i < gridAmount; i++) {
     const row = document.createElement('div');
@@ -24,17 +25,20 @@ function makeGrid(gridAmount) {
   }
 }
 
-const handleOnCellMouseOver = e =>{
+//-----------------------------------------------------------------------------
+
+const handleOnCellMouseOver = e =>{                                               //Funtion to set the colors of the squares to random colors
   const color = getColor();
   e.target.style.background = color;
 
 }
 
+//-----------------------------------------------------------------------------
 
 makeGrid(gridsize);
 
 
-function getColor(event) {
+function getColor(event) {                                                        //Function to set random colors
     let square = document.querySelectorAll('cell')
     let black = `rgb(0,0,0)`
     let white = `rgb(255,255,255)`
@@ -51,15 +55,37 @@ function getColor(event) {
     }
 }
 
+
 getColor();
 
+//-----------------------------------------------------------------------------
 
 
-resetButton.addEventListener('click', function reset() {
-  var allCells = document.getElementById('square');
-  for (var i = 0; i < allCells.length; i++) {
-    allCells.style.backgroundColor = 'white'
-  }
-})
+const clearGrid = e => {                                                           //Function to clear the grid
+  var matches = document.querySelectorAll('#square')
+  matches.forEach(function(square) {
+    square.style.background = 'white'
+  })
+}
 
-console.log(gridsize);
+resetButton.addEventListener('click', clearGrid)
+
+//-----------------------------------------------------------------------------
+
+function deleteGrid() {                                                            //Function to remove the grid
+  let x = document.querySelector('.container')
+  while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+}
+
+resizeButton.addEventListener('click', deleteGrid)
+
+//-----------------------------------------------------------------------------
+
+function changeGrid() {                                                           // Function to change the grid Size
+  let gridsize = parseInt(prompt('What size would you like: '))
+  makeGrid(gridsize)
+}
+
+resizeButton.addEventListener('click', changeGrid)
